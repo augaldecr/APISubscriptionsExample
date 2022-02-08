@@ -1,0 +1,2 @@
+# APISubscriptionsExample
+For educational purposes
