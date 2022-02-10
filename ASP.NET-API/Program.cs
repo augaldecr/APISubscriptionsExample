@@ -116,6 +116,8 @@ app.UseRouting();
 
 app.UseCors();
 
+app.UseAPIRequestLimit();
+
 app.UseAuthorization();
 
 app.MapControllers();

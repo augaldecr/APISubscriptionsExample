@@ -19,6 +19,7 @@ namespace ASP.NET_API.Data
         }
 
         public DbSet<APIKey> APIKeys { get; set; }
+        public DbSet<APIRequest> APIRequests { get; set; }
         public DbSet<Author> Authors { get; set; }
         public DbSet<AuthorBook> AuthorBooks { get; set; }
         public DbSet<Book> Books { get; set; }
