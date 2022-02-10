@@ -30,7 +30,9 @@ namespace ASP.NET_API.Controllers
         public async Task<APIKeyDTO[]> GetMyKeys()
         {
             var userId = GetUserId();
-            var keys = await _context.APIKeys.Where(x => x.UserId == userId).ToArrayAsync();
+            var keys = await _context.APIKeys.Include(x => x.RestrictionsByDomain)
+                                             .Include(x => x.RestrictionsByIP)
+                                             .Where(x => x.UserId == userId).ToArrayAsync();
             return _mapper.Map<APIKeyDTO[]>(keys);
         }
 

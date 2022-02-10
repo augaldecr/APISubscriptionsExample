@@ -21,6 +21,8 @@ namespace ASP.NET_API.Utilities
             CreateMap<CommentCreateDTO, Comment>();
             CreateMap<Comment, CommentDTO>();
             CreateMap<APIKey, APIKeyDTO>();
+            CreateMap<RestrictionByDomain, RestrictionByDomainDTO>();
+            CreateMap<RestrictionByIP, RestrictionByIPDTO>();
         }
 
         private List<BookDTO> MapAuthorDTOBooks(Author autor, AuthorDTO authorDTO)

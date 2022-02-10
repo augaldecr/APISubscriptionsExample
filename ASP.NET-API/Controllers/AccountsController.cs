@@ -18,14 +18,14 @@ namespace ASP.NET_API.Controllers
     [Route("api/accounts")]
     public class AccountsController : ControllerBase
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<User> _userManager;
         private readonly IConfiguration _configuration;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly SignInManager<User> _signInManager;
         private readonly APIKeyService _keyServices;
 
-        public AccountsController(UserManager<IdentityUser> userManager,
+        public AccountsController(UserManager<User> userManager,
                                   IConfiguration configuration,
-                                  SignInManager<IdentityUser> signInManager,
+                                  SignInManager<User> signInManager,
                                   APIKeyService keyServices)
         {
             _userManager = userManager;
@@ -54,7 +54,7 @@ namespace ASP.NET_API.Controllers
         [HttpPost("register", Name = "Register")]
         public async Task<ActionResult<AuthenticationResponse>> Register(UserCredentials userCredentials)
         {
-            var user = new IdentityUser
+            var user = new User
             {
                 UserName = userCredentials.Email,
                 Email = userCredentials.Email

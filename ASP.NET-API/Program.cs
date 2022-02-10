@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Shared.Entities;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -71,7 +72,7 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+builder.Services.AddIdentity<User, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
@@ -96,6 +97,7 @@ builder.Services.AddTransient<GenerateLinksService>();
 builder.Services.AddTransient<HATEOASAuthorFilterAttribute>();
 builder.Services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
 builder.Services.AddScoped<APIKeyService>();
+builder.Services.AddHostedService<BillsHostedService>();
 
 var app = builder.Build();
 

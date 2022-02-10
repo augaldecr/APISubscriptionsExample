@@ -1,9 +1,4 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Shared.Entities
 {
@@ -14,7 +9,9 @@ namespace Shared.Entities
         public KeyType KeyType { get; set; }
         public bool Active { get; set; }
         public string UserId { get; set; }
-        public IdentityUser USer { get; set; }
+        public User User { get; set; }
+        public List<RestrictionByDomain> RestrictionsByDomain { get; set; }
+        public List<RestrictionByIP> RestrictionsByIP { get; set; }
     }
 
     public enum KeyType

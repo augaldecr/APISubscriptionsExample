@@ -1,0 +1,68 @@
+﻿-- ================================================
+-- Template generated from Template Explorer using:
+-- Create Procedure (New Menu).SQL
+--
+-- Use the Specify Values for Template Parameters 
+-- command (Ctrl-Shift-M) to fill in the parameter 
+-- values below.
+--
+-- This block of comments will not be included in
+-- the definition of the procedure.
+-- ================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE BillCreation
+	-- Add the parameters for the stored procedure here
+	@beginDate datetime,
+	@endDate datetime
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+DECLARE @amountByRequest decimal(4,4) = 1.0/2  --2.0/1000; -- 2 two dollars by each 1000 request
+
+INSERT INTO Bills(UserId, Amount, CreationDate, Paid, PaydayLimit)
+SELECT APIKeys.UserId, 
+	COUNT(*) * @amountByRequest as amount,
+	GETDATE() as creationDate,
+	0 as Paid,
+	DATEADD(d, 60, GETDATE()) as PaydayLimit
+from APIRequests
+INNER JOIN APIKeys
+On APIKeys.Id = APIRequests.APIKeyId
+where APIKeys.KeyType != 1 and APIRequests.RequestDate >= @beginDate and APIRequests.RequestDate < @endDate
+group by APIKeys.UserId
+
+INSERT INTO CreatedBills(Month, Year)
+Select 
+	CASE MONTH(GETDATE())
+		WHEN 1 THEN 12
+		ELSE MONTH(GETDATE())-1 END AS Month,
+	CASE MONTH(GETDATE())
+		WHEN 1 THEN YEAR(GETDATE())-1
+		ELSE YEAR(GETDATE()) END AS Year
+END
+GO
+
+
+
+
+
+
+
+
+
+
+/******************************************************************/
+UPDATE AspNetUsers
+set
+Debtor = 'True'
+from Bills
+inner Join AspNetUsers
+on AspNetUsers.Id = Bills.UserId
+Where Paid = 'False' and PaydayLimit < GETDATE()
